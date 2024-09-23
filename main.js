@@ -28,6 +28,7 @@ function readData() {
     var jsonPlannerData = localStorage.getItem('plannerData');
     if (!jsonPlannerData) {
         return {
+            nextRowId: 0,
             Monday: [],
             Tuesday: [],
             Wednesday: [],
@@ -50,9 +51,11 @@ $form.addEventListener('submit', function (event) {
     var $tr = renderRow(formData);
     $tbody.prepend($tr);
     var dayInfo = {
+        rowId: data.nextRowId,
         info: formData.info,
         time: formData.time,
     };
+    data.nextRowId++;
     data[formData.day].push(dayInfo);
     $eventCreator.close();
     writeData();
@@ -60,6 +63,7 @@ $form.addEventListener('submit', function (event) {
 });
 function renderRow(formData) {
     var $tr = document.createElement('tr');
+    $tr.setAttribute('id', "".concat(data.nextRowId));
     var $tdTime = document.createElement('td');
     var $tdEvent = document.createElement('td');
     var $tdActions = document.createElement('td');
@@ -105,5 +109,7 @@ $tbody.addEventListener('click', function (event) {
         var $row = $eventTarget.closest('tr');
         var rowsCells = $row.children;
         console.log('rowCells', rowsCells);
+        var id = $row.getAttribute('id');
+        var index = ;
     }
 });

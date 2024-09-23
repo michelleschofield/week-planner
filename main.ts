@@ -1,9 +1,11 @@
 interface dayOfWeek {
+  rowId: number;
   time: number;
   info: string;
 }
 
 interface plannerData {
+  nextRowId: number;
   Monday: dayOfWeek[];
   Tuesday: dayOfWeek[];
   Wednesday: dayOfWeek[];
@@ -50,6 +52,7 @@ function readData(): plannerData {
   const jsonPlannerData = localStorage.getItem('plannerData');
   if (!jsonPlannerData) {
     return {
+      nextRowId: 0,
       Monday: [],
       Tuesday: [],
       Wednesday: [],
@@ -74,9 +77,11 @@ $form.addEventListener('submit', (event) => {
   const $tr = renderRow(formData);
   $tbody.prepend($tr);
   const dayInfo = {
+    rowId: data.nextRowId,
     info: formData.info,
     time: formData.time,
   };
+  data.nextRowId++;
   data[formData.day].push(dayInfo);
   $eventCreator.close();
   writeData();
@@ -88,6 +93,7 @@ function renderRow(formData?: {
   info: string;
 }): HTMLTableRowElement {
   const $tr = document.createElement('tr');
+  $tr.setAttribute('id', `${data.nextRowId}`);
   const $tdTime = document.createElement('td');
   const $tdEvent = document.createElement('td');
   const $tdActions = document.createElement('td');
@@ -142,5 +148,7 @@ $tbody.addEventListener('click', (event: Event) => {
 
     const rowsCells = $row.children;
     console.log('rowCells', rowsCells);
+    const id = $row.getAttribute('id');
+    const index =
   }
 });
