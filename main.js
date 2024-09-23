@@ -5,6 +5,15 @@ var $form = document.querySelector('#form-modal');
 var $tbody = document.querySelector('tbody');
 var $cancelButton = document.querySelector('#cancel');
 var $changeDay = document.querySelector('#change-day');
+var $day = document.querySelector('#day-of-week');
+var $info = document.querySelector('#event-info');
+var $time = document.querySelector('#event-time');
+if (!$day)
+    throw new Error('$day query failed');
+if (!$info)
+    throw new Error('info  query failed');
+if (!$time)
+    throw new Error('$time  query failed');
 if (!$form)
     throw new Error('$form query failed');
 if (!$newEventButton)
@@ -48,13 +57,13 @@ $form.addEventListener('submit', function (event) {
         time: $formElements['event-time'].value,
         info: $formElements['event-info'].value,
     };
-    var $tr = renderRow(formData);
-    $tbody.prepend($tr);
     var dayInfo = {
         rowId: data.nextRowId,
         info: formData.info,
         time: formData.time,
     };
+    var $tr = renderRow(dayInfo);
+    $tbody.prepend($tr);
     data.nextRowId++;
     data[formData.day].push(dayInfo);
     $eventCreator.close();
@@ -63,14 +72,12 @@ $form.addEventListener('submit', function (event) {
 });
 function renderRow(formData) {
     var $tr = document.createElement('tr');
-    $tr.setAttribute('id', "".concat(data.nextRowId));
+    $tr.setAttribute('id', "".concat(formData.rowId));
     var $tdTime = document.createElement('td');
     var $tdEvent = document.createElement('td');
     var $tdActions = document.createElement('td');
     var $editButton = document.createElement('button');
     var $deleteButton = document.createElement('button');
-    $tdTime.textContent = formData.time;
-    $tdEvent.textContent = formData.info;
     $tdActions.setAttribute('class', 'action-buttons');
     $editButton.setAttribute('class', 'button edit-button');
     $editButton.textContent = 'Edit';
@@ -79,6 +86,8 @@ function renderRow(formData) {
     $tr.append($tdTime, $tdEvent, $tdActions);
     if (formData.time !== undefined) {
         $tdActions.append($editButton, $deleteButton);
+        $tdTime.textContent = formData.time.toString();
+        $tdEvent.textContent = formData.info;
     }
     return $tr;
 }
@@ -89,7 +98,7 @@ $cancelButton.addEventListener('click', function () {
 $changeDay.addEventListener('change', function () {
     var daySelected = $changeDay.value;
     var eventsForDay = data[daySelected];
-    var empty = { time: undefined, info: undefined };
+    var empty = { time: undefined, info: undefined, rowId: undefined };
     $tbody.replaceChildren();
     for (var i = 0; i < 9; i++) {
         if (eventsForDay[i]) {
@@ -107,9 +116,20 @@ $tbody.addEventListener('click', function (event) {
     if ($eventTarget.matches('.edit-button')) {
         $eventCreator.showModal();
         var $row = $eventTarget.closest('tr');
-        var rowsCells = $row.children;
-        console.log('rowCells', rowsCells);
         var id = $row.getAttribute('id');
-        var index = ;
+        var changeDay = $changeDay.value;
+        var editDay = void 0;
+        for (var i = 0; i < data[changeDay].length; i++) {
+            if (id === data[changeDay][i].id) {
+                editDay = data[changeDay][i];
+            }
+        }
+        var dayChildren = $day.children;
+        for (var i = 0; i < $day.children.length; i++) {
+            $day.setAttribute('selected', changeDay);
+            if (dayChildren[i].value === changeDay) {
+                console.log('yay');
+            }
+        }
     }
 });

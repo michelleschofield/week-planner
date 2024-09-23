@@ -32,6 +32,13 @@ const $tbody = document.querySelector('tbody') as HTMLTableSectionElement;
 const $cancelButton = document.querySelector('#cancel') as HTMLButtonElement;
 const $changeDay = document.querySelector('#change-day') as HTMLSelectElement;
 
+const $day = document.querySelector('#day-of-week') as HTMLSelectElement;
+const $info = document.querySelector('#event-info') as HTMLSelectElement;
+const $time = document.querySelector('#event-time') as HTMLSelectElement;
+
+if (!$day) throw new Error('$day query failed');
+if (!$info) throw new Error('info  query failed');
+if (!$time) throw new Error('$time  query failed');
 if (!$form) throw new Error('$form query failed');
 if (!$newEventButton) throw new Error('$newEventButton query failed');
 if (!$eventCreator) throw new Error('$eventCreator query failed');
@@ -73,14 +80,15 @@ $form.addEventListener('submit', (event) => {
     time: $formElements['event-time'].value,
     info: $formElements['event-info'].value,
   };
-
-  const $tr = renderRow(formData);
-  $tbody.prepend($tr);
-  const dayInfo = {
+  const dayInfo: dayOfWeek = {
     rowId: data.nextRowId,
     info: formData.info,
     time: formData.time,
   };
+
+  const $tr = renderRow(dayInfo);
+  $tbody.prepend($tr);
+
   data.nextRowId++;
   data[formData.day].push(dayInfo);
   $eventCreator.close();
@@ -88,20 +96,14 @@ $form.addEventListener('submit', (event) => {
   $form.reset();
 });
 
-function renderRow(formData?: {
-  time: string;
-  info: string;
-}): HTMLTableRowElement {
+function renderRow(formData?: dayOfWeek): HTMLTableRowElement {
   const $tr = document.createElement('tr');
-  $tr.setAttribute('id', `${data.nextRowId}`);
+  $tr.setAttribute('id', `${formData.rowId}`);
   const $tdTime = document.createElement('td');
   const $tdEvent = document.createElement('td');
   const $tdActions = document.createElement('td');
   const $editButton = document.createElement('button');
   const $deleteButton = document.createElement('button');
-
-  $tdTime.textContent = formData.time;
-  $tdEvent.textContent = formData.info;
 
   $tdActions.setAttribute('class', 'action-buttons');
 
@@ -114,6 +116,8 @@ function renderRow(formData?: {
 
   if (formData.time !== undefined) {
     $tdActions.append($editButton, $deleteButton);
+    $tdTime.textContent = formData.time.toString();
+    $tdEvent.textContent = formData.info;
   }
 
   return $tr;
@@ -127,7 +131,7 @@ $cancelButton.addEventListener('click', () => {
 $changeDay.addEventListener('change', () => {
   const daySelected = $changeDay.value;
   const eventsForDay = data[daySelected];
-  const empty = { time: undefined, info: undefined };
+  const empty = { time: undefined, info: undefined, rowId: undefined };
   $tbody.replaceChildren();
   for (let i = 0; i < 9; i++) {
     if (eventsForDay[i]) {
@@ -146,9 +150,21 @@ $tbody.addEventListener('click', (event: Event) => {
     $eventCreator.showModal();
     const $row = $eventTarget.closest('tr');
 
-    const rowsCells = $row.children;
-    console.log('rowCells', rowsCells);
     const id = $row.getAttribute('id');
-    const index =
+    const changeDay = $changeDay.value;
+    let editDay;
+    for (let i = 0; i < data[changeDay].length; i++) {
+      if (id === data[changeDay][i].id) {
+        editDay = data[changeDay][i];
+      }
+    }
+
+    const dayChildren = $day.children as HTMLOptionsCollection;
+    for (let i = 0; i < $day.children.length; i++) {
+      $day.setAttribute('selected', changeDay);
+      if (dayChildren[i].value === changeDay) {
+        console.log('yay');
+      }
+    }
   }
 });
