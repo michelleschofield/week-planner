@@ -28,12 +28,14 @@ const $eventCreator = document.querySelector(
 const $form = document.querySelector('#form-modal') as HTMLFormElement;
 const $tbody = document.querySelector('tbody') as HTMLTableSectionElement;
 const $cancelButton = document.querySelector('#cancel') as HTMLButtonElement;
+const $changeDay = document.querySelector('#change-day') as HTMLSelectElement;
 
 if (!$form) throw new Error('$form query failed');
 if (!$newEventButton) throw new Error('$newEventButton query failed');
 if (!$eventCreator) throw new Error('$eventCreator query failed');
 if (!$tbody) throw new Error('$tbody query failed!');
 if (!$cancelButton) throw new Error('$cancelButton failed');
+if (!$changeDay) throw new Error('$$changeDay query failed');
 
 $newEventButton.addEventListener('click', () => {
   $eventCreator.showModal();
@@ -77,7 +79,6 @@ $form.addEventListener('submit', (event) => {
   };
   data[formData.day].push(dayInfo);
   $eventCreator.close();
-  console.log(formData);
   writeData();
   $form.reset();
 });
@@ -109,4 +110,20 @@ function renderRow(formData: {
   return $tr;
 }
 
-$cancelButton.addEventListener('click', () => {});
+$cancelButton.addEventListener('click', () => {
+  $eventCreator.close();
+  $form.reset();
+});
+
+$changeDay.addEventListener('change', () => {
+  const daySelected = $changeDay.value;
+  const eventsForDay = data[daySelected];
+  $tbody.replaceChildren();
+  for (let i = 0; i < 9; i++) {
+    if (eventsForDay[i]) {
+      const prependRow = renderRow(eventsForDay[i]);
+      $tbody.prepend(prependRow);
+    } else {
+    }
+  }
+});
