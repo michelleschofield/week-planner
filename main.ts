@@ -27,11 +27,13 @@ const $eventCreator = document.querySelector(
 ) as HTMLDialogElement;
 const $form = document.querySelector('#form-modal') as HTMLFormElement;
 const $tbody = document.querySelector('tbody') as HTMLTableSectionElement;
+const $cancelButton = document.querySelector('#cancel') as HTMLButtonElement;
 
 if (!$form) throw new Error('$form query failed');
 if (!$newEventButton) throw new Error('$newEventButton query failed');
 if (!$eventCreator) throw new Error('$eventCreator query failed');
 if (!$tbody) throw new Error('$tbody query failed!');
+if (!$cancelButton) throw new Error('$cancelButton failed');
 
 $newEventButton.addEventListener('click', () => {
   $eventCreator.showModal();
@@ -58,8 +60,6 @@ function readData(): plannerData {
   return JSON.parse(jsonPlannerData);
 }
 
-// form
-
 $form.addEventListener('submit', (event) => {
   event.preventDefault();
   const $formElements = $form.elements as FormElements;
@@ -71,9 +71,15 @@ $form.addEventListener('submit', (event) => {
 
   const $tr = renderRow(formData);
   $tbody.prepend($tr);
-
+  const dayInfo = {
+    info: formData.info,
+    time: formData.time,
+  };
+  data[formData.day].push(dayInfo);
   $eventCreator.close();
   console.log(formData);
+  writeData();
+  $form.reset();
 });
 
 function renderRow(formData: {
@@ -102,3 +108,5 @@ function renderRow(formData: {
 
   return $tr;
 }
+
+$cancelButton.addEventListener('click', () => {});

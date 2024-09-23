@@ -21,6 +21,10 @@ form {
   line-height: 1.5;
 }
 
+tr {
+  height: 2rem;
+}
+
 tr:nth-child(odd) {
   background-color: lightgrey;
 }
@@ -65,4 +69,27 @@ td {
   border-color: black;
   border-style: solid;
   margin: 0;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.edit-button {
+  background-color: blue;
+}
+
+.delete-button {
+  background-color: red;
+}
+
+#new-event {
+  background-color: grey;
+  margin-bottom: 1rem;
+  margin-top: 5rem;
+}
+
+.button:hover {
+  cursor: pointer;
 }
