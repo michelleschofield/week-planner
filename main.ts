@@ -83,7 +83,7 @@ $form.addEventListener('submit', (event) => {
   $form.reset();
 });
 
-function renderRow(formData: {
+function renderRow(formData?: {
   time: string;
   info: string;
 }): HTMLTableRowElement {
@@ -105,7 +105,10 @@ function renderRow(formData: {
   $deleteButton.textContent = 'Delete';
 
   $tr.append($tdTime, $tdEvent, $tdActions);
-  $tdActions.append($editButton, $deleteButton);
+
+  if (formData.time !== undefined) {
+    $tdActions.append($editButton, $deleteButton);
+  }
 
   return $tr;
 }
@@ -118,12 +121,15 @@ $cancelButton.addEventListener('click', () => {
 $changeDay.addEventListener('change', () => {
   const daySelected = $changeDay.value;
   const eventsForDay = data[daySelected];
+  const empty = { time: undefined, info: undefined };
   $tbody.replaceChildren();
   for (let i = 0; i < 9; i++) {
     if (eventsForDay[i]) {
       const prependRow = renderRow(eventsForDay[i]);
       $tbody.prepend(prependRow);
     } else {
+      renderRow(empty);
+      $tbody.append(renderRow(empty));
     }
   }
 });
