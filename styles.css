@@ -28,3 +28,40 @@ tr:nth-child(odd) {
 th {
   background-color: white;
 }
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.button {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  color: white;
+}
+
+#cancel {
+  background-color: gray;
+}
+
+#confirm {
+  background-color: green;
+}
+
+textarea {
+  height: 10rem;
+}
+
+.margin {
+  margin: 0.2rem;
+}
+
+table,
+th,
+td {
+  border-width: 1px;
+  border-color: black;
+  border-style: solid;
+}
