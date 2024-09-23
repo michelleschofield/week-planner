@@ -27,3 +27,19 @@ function readData() {
     }
     return JSON.parse(jsonPlannerData);
 }
+// form
+var $form = document.querySelector('#form-modal');
+if (!$form)
+    throw new Error('$form query failed');
+$form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    var $formElements = $form.elements;
+    var formData = {
+        day: $formElements['day-of-week'].value,
+        time: $formElements['event-time'].value,
+        info: $formElements['event-info'].value,
+    };
+    $eventCreator.close();
+    console.log(formData);
+});
+// function renderTable

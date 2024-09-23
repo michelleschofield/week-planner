@@ -14,9 +14,17 @@ interface plannerData {
   Sunday: dayOfWeek[];
 }
 
+interface FormElements extends HTMLFormControlsCollection {
+  day: string;
+  time: string;
+  info: string;
+}
+
 const data: plannerData = readData();
 const $newEventButton = document.querySelector('#new-event');
-const $eventCreator = document.querySelector('#event-creator');
+const $eventCreator = document.querySelector(
+  '#event-creator',
+) as HTMLDialogElement;
 
 if (!$newEventButton) throw new Error('$newEventButton query failed');
 if (!$eventCreator) throw new Error('$eventCreator query failed');
@@ -45,3 +53,23 @@ function readData(): plannerData {
   }
   return JSON.parse(jsonPlannerData);
 }
+
+// form
+
+const $form = document.querySelector('#form-modal') as HTMLFormElement;
+if (!$form) throw new Error('$form query failed');
+
+$form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const $formElements = $form.elements as FormElements;
+  const formData = {
+    day: $formElements['day-of-week'].value,
+    time: $formElements['event-time'].value,
+    info: $formElements['event-info'].value,
+  };
+
+  $eventCreator.close();
+  console.log(formData);
+});
+
+// function renderTable

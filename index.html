@@ -29,16 +29,16 @@
         </form>
         <button id="new-event">Add New Event</button>
         <dialog id="event-creator">
-          <form>
+          <form id="form-modal">
             <div class="row modal">
               <label for="event-time" class="margin">Time of Event</label>
-              <select id="event-time" class="margin">
+              <select name="time" id="event-time" class="margin">
                 <option>0100</option>
                 <option>0200</option>
                 <option>0300</option>
               </select>
               <label for="day-of-week" class="margin">Day of Week</label>
-              <select id="day-of-week" class="margin">
+              <select name="day" id="day-of-week" class="margin">
                 <option>Monday</option>
                 <option>Tuesday</option>
                 <option>Wednesday</option>
@@ -48,7 +48,7 @@
                 <option>Sunday</option>
               </select>
               <label for="event-info" class="margin">Event Information</label>
-              <textarea class="margin"></textarea>
+              <textarea name="info" id="event-info" class="margin"></textarea>
             </div>
             <div class="row">
               <button id="cancel" type="button" class="button margin">
