@@ -1,8 +1,27 @@
 .container {
-  display: flex;
   text-align: center;
+  display: flex;
   flex-direction: column;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.row {
+form {
+  margin: 0 auto;
+}
+
+.column-full {
+  width: 100%;
+}
+
+.table {
+  width: 100%;
+}
+
+tr:nth-child(odd) {
+  background-color: grey;
+}
+
+th {
+  background-color: white;
 }
