@@ -4,6 +4,7 @@
   flex-direction: column;
   max-width: 800px;
   margin: 0 auto;
+  font-family: sans-serif;
 }
 
 form {
@@ -16,10 +17,12 @@ form {
 
 .table {
   width: 100%;
+  text-align: left;
+  line-height: 1.5;
 }
 
 tr:nth-child(odd) {
-  background-color: grey;
+  background-color: lightgrey;
 }
 
 th {
