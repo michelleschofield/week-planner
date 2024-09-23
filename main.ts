@@ -1,5 +1,4 @@
 interface dayOfWeek {
-  name: string;
   time: number;
   info: string;
 }
@@ -21,6 +20,7 @@ interface FormElements extends HTMLFormControlsCollection {
 }
 
 const data: plannerData = readData();
+
 const $newEventButton = document.querySelector('#new-event');
 const $eventCreator = document.querySelector(
   '#event-creator',
@@ -69,18 +69,36 @@ $form.addEventListener('submit', (event) => {
     info: $formElements['event-info'].value,
   };
 
+  const $tr = renderRow(formData);
+  $tbody.prepend($tr);
+
   $eventCreator.close();
   console.log(formData);
 });
 
-function renderTable(formData): HTMLTableRowElement {
+function renderRow(formData: {
+  time: string;
+  info: string;
+}): HTMLTableRowElement {
   const $tr = document.createElement('tr');
-  $tbody.prepend($tr);
-
   const $tdTime = document.createElement('td');
-  $tdTime.textContent = formData.time;
   const $tdEvent = document.createElement('td');
-  $tdEvent.textContent = formData.info;
   const $tdActions = document.createElement('td');
-  $c;
+  const $editButton = document.createElement('button');
+  const $deleteButton = document.createElement('button');
+
+  $tdTime.textContent = formData.time;
+  $tdEvent.textContent = formData.info;
+
+  $tdActions.setAttribute('class', 'action-buttons');
+
+  $editButton.setAttribute('class', 'button edit-button');
+  $editButton.textContent = 'Edit';
+  $deleteButton.setAttribute('class', 'button delete-button');
+  $deleteButton.textContent = 'Delete';
+
+  $tr.append($tdTime, $tdEvent, $tdActions);
+  $tdActions.append($editButton, $deleteButton);
+
+  return $tr;
 }
