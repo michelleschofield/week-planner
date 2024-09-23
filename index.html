@@ -27,7 +27,35 @@
             <option>Sunday</option>
           </select>
         </form>
-        <button>Add New Event</button>
+        <button id="new-event">Add New Event</button>
+        <dialog id="event-creator">
+          <form>
+            <div class="row">
+              <label for="event-time">Time of Event</label>
+              <select id="event-time">
+                <option>0100</option>
+                <option>0200</option>
+                <option>0300</option>
+              </select>
+              <label for="day-of-week">Day of Week</label>
+              <select id="day-of-week">
+                <option>Monday</option>
+                <option>Tuesday</option>
+                <option>Wednesday</option>
+                <option>Thursday</option>
+                <option>Friday</option>
+                <option>Saturday</option>
+                <option>Sunday</option>
+              </select>
+              <label for="event-info">Event Information</label>
+              <textarea></textarea>
+            </div>
+            <div class="row">
+              <button type="button">Cancel</button>
+              <button type="submit">Confirm</button>
+            </div>
+          </form>
+        </dialog>
       </div>
       <div class="row table">
         <table class="column-full">
