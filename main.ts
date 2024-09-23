@@ -133,3 +133,14 @@ $changeDay.addEventListener('change', () => {
     }
   }
 });
+
+$tbody.addEventListener('click', (event: Event) => {
+  const $eventTarget = event.target as HTMLElement;
+  if ($eventTarget.matches('.edit-button')) {
+    $eventCreator.showModal();
+    const $row = $eventTarget.closest('tr');
+
+    const rowsCells = $row.children;
+    console.log('rowCells', rowsCells);
+  }
+});
