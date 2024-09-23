@@ -25,9 +25,13 @@ const $newEventButton = document.querySelector('#new-event');
 const $eventCreator = document.querySelector(
   '#event-creator',
 ) as HTMLDialogElement;
+const $form = document.querySelector('#form-modal') as HTMLFormElement;
+const $tbody = document.querySelector('tbody') as HTMLTableSectionElement;
 
+if (!$form) throw new Error('$form query failed');
 if (!$newEventButton) throw new Error('$newEventButton query failed');
 if (!$eventCreator) throw new Error('$eventCreator query failed');
+if (!$tbody) throw new Error('$tbody query failed!');
 
 $newEventButton.addEventListener('click', () => {
   $eventCreator.showModal();
@@ -56,9 +60,6 @@ function readData(): plannerData {
 
 // form
 
-const $form = document.querySelector('#form-modal') as HTMLFormElement;
-if (!$form) throw new Error('$form query failed');
-
 $form.addEventListener('submit', (event) => {
   event.preventDefault();
   const $formElements = $form.elements as FormElements;
@@ -72,4 +73,14 @@ $form.addEventListener('submit', (event) => {
   console.log(formData);
 });
 
-// function renderTable
+function renderTable(formData): HTMLTableRowElement {
+  const $tr = document.createElement('tr');
+  $tbody.prepend($tr);
+
+  const $tdTime = document.createElement('td');
+  $tdTime.textContent = formData.time;
+  const $tdEvent = document.createElement('td');
+  $tdEvent.textContent = formData.info;
+  const $tdActions = document.createElement('td');
+  $c;
+}
